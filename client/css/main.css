@@ -1,0 +1,109 @@
+body {
+	max-width: 1180px;
+	margin: 0 auto;
+	font-family: Sans-serif;
+	background: #e8e8e8;
+}
+
+.b-logo {
+	text-align: center;
+	line-height: 50px;
+	padding:2%;
+}
+
+.b-flex-container {
+	display: flex;
+	justify-content: space-around;
+}
+
+.b-search {
+	height: 30px;
+}
+
+.b-search__button {
+	background: #FFF9E7;
+	cursor: pointer;
+	border: 1px solid #F4EBD1;
+	border-radius: 3px;
+	height: 25px;
+	width: 70px;
+}
+
+.b-add-sample {
+	height: 30px;
+}
+
+.b-add-sample__button {
+	background: #FFF9E7;
+	cursor: pointer;
+	border: 1px solid #F4EBD1;
+	border-radius: 3px;
+	height: 25px;
+	width: 70px;
+}
+
+.b-samples {
+	margin-top: 2%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content:center;
+}
+
+.b-sample__item {
+	flex-basis: 260px;
+	background-color: #FFFFFe;
+	margin: 5px 2% 10px 2%;
+	padding: 1.1%;
+	border-radius:3px;
+	box-shadow: 2px 2px 3px 0px rgba(173,173,173,0.75);
+	border: 2px solid #FFFFFe;
+	border-radius: 3px;
+	position: relative;
+}
+
+.choosen {
+	border: 2px solid #F4EBD1;
+	border-radius: 3px;
+	content: '#';
+}
+
+.delete-button {
+	position: absolute;
+	top:-8px;
+	right:-10px;
+}
+
+.b-sample_404err {
+	margin-top: 2%;
+	height:400px;
+	background: url("../images/gopher.png") no-repeat center bottom ;
+	font-style: italic;
+	font-weight: bold;
+	text-align: center;
+}
+
+.b-sample_404err p {
+	padding: 1%;
+}
+
+@media (max-width: 500px) {
+	.b-flex-container {
+		flex-wrap: wrap;
+		justify-content: space-around;
+	}
+	.b-add-sample {
+
+	}
+	.b-search {
+
+	}
+	.b-sample__item {
+		flex-grow: 1;
+	}
+}
+
+@media (max-width: 600px) {
+	.b-sample__item {
+		flex-grow: 1;
+	}
+}
