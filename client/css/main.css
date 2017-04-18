@@ -73,7 +73,7 @@ body {
 	right:-10px;
 }
 
-.b-sample_404err {
+.err404 {
 	margin-top: 2%;
 	height:400px;
 	background: url("../images/gopher.png") no-repeat center bottom ;
@@ -82,7 +82,7 @@ body {
 	text-align: center;
 }
 
-.b-sample_404err p {
+.err404 p {
 	padding: 1%;
 }
 

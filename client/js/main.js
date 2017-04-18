@@ -18,22 +18,9 @@ var main = function () {
 	var arreyOfSamples = samplesConstructor();
 	//console.log(arreyOfSamples)
 
-	function samplesPusher () {
-		var $newSample = $('.b-add-sample__input').val();
-		if (($newSample != '') & ($newSample != ' ')) {
-			arreyOfSamples.push($newSample);
-			$('.b-add-sample__input').val('');
-			var sample = {"sample": $newSample}
-			$.post("/value", sample, function (response) {
-				// этот обратный вызов выполняется при ответе сервера
-				//console.log('Ответ сервера:'); console.log(sample);
-			});
-			samplesWriter('addLastSample');
-		} 
-	}
-
 	function samplesWriter (action, foundSamples) {
 		if (action === 'addLastSample') {
+			$('.err404').remove();
 			arreyOfSamples = samplesConstructor();
 			var lastElement = arreyOfSamples[arreyOfSamples.length-1];
 			var $newSampleItem = $('<div>').addClass('b-sample__item animated bounceInLeft');
@@ -52,6 +39,20 @@ var main = function () {
 		}
 	}
 
+	function samplesPusher () {
+		var $newSample = $('.b-add-sample__input').val();
+		if (($newSample != '') & ($newSample != ' ')) {
+			arreyOfSamples.push($newSample);
+			$('.b-add-sample__input').val('');
+			var sample = {"sample": $newSample}
+			$.post("/value", sample, function (response) {
+				// этот обратный вызов выполняется при ответе сервера
+				//console.log('Ответ сервера:'); console.log(sample);
+			});
+			samplesWriter('addLastSample');
+		} 
+	}
+
 	function samplesDeleter (id) {
 		$.ajax({
 			url: '/sample/'+id+'',
@@ -63,9 +64,9 @@ var main = function () {
 	}
 
 	function error404 () {
-		$('main').empty();
-		console.log('i`am 404 function');
-		var $contentFor404Error = $('<div>').addClass('b-sample_404err animated bounce');
+		$('.err404').remove();
+		$('.b-samples').empty();
+		var $contentFor404Error = $('<div>').addClass('err404 animated bounce');
 		$contentFor404Error.append($('<p>').text('Error 404 has occurred'));
 		$contentFor404Error.append($('<p>').text('Notice, so far search works only with exact matches'));
 		$('main').append($contentFor404Error);
@@ -81,6 +82,9 @@ var main = function () {
 				if (findResult === null) {
 					error404();
 				} else {
+					if (findResult) {
+						$('.err404').remove();
+					}
 					var local = [findResult];
 					local.forEach(function (elem) {
 						foundSamples.push({'sample': elem.sample, 'id': elem._id});
@@ -91,7 +95,7 @@ var main = function () {
 		return foundSamples
 	}
 
-	function clicker () {
+	function samplesClicker () {
 		$('.b-samples').on('click', '.b-sample__item', function () {
 			var idOfSample = $(this.id).selector;
 			console.log(idOfSample);
@@ -106,7 +110,7 @@ var main = function () {
 	}
 
 	samplesWriter();
-	clicker();
+	samplesClicker();
 
 	// ADD SAMPLE
 	$('#id-add').on('click', function () {
@@ -125,7 +129,7 @@ var main = function () {
 		$(".b-search__input").val('');
 		if ((searchTag != '') & (searchTag != ' ')) {
 			var foundSamples = samplesFinder(searchTag);
-			console.log(foundSamples);
+			//console.log(foundSamples);
 			samplesWriter('addFoundSamples', foundSamples);
 		}
 	});
@@ -136,7 +140,7 @@ var main = function () {
 			if ((searchTag != '') & (searchTag != ' ')) {
 				$(".b-search__input").val('');
 				var foundSamples = samplesFinder(searchTag);
-				console.log(foundSamples);
+				//console.log(foundSamples);
 				samplesWriter('addFoundSamples', foundSamples);
 			}
 		}

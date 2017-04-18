@@ -2,11 +2,10 @@ var express = require("express");
 var	app = express();
 var	http = require("http");
 var	bodyParser = require('body-parser');
+var	mongoose = require('mongoose');
 
 // MONGO
-var	mongoose = require('mongoose');
 var dbSchema = require('./schema.js');
-
 var db = 'mongodb://localhost/linky';
 mongoose.connect(db);
 // END MONGO
@@ -14,8 +13,9 @@ mongoose.connect(db);
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}));
 
-http.createServer(app).listen(3000, function () {
-	console.log('Listening on port 3000');
+var port = 80;
+http.createServer(app).listen(port, function () {
+	console.log('Listening on port' + port);
 });
 
 app.use(express.static(__dirname + "/client"));
@@ -34,7 +34,7 @@ app.get('/samples', function (req, res) {
 		});
 });
 
-// GET ONE sample it's by body
+// GET One sample by it's body
 app.get('/search/:sample', function(req, res) {
   console.log('getting all sample');
   dbSchema.findOne({
@@ -42,7 +42,7 @@ app.get('/search/:sample', function(req, res) {
     })
     .exec(function(err, sample) {
       if(err) {
-        res.send('error occured')
+        res.send('An error has occured')
       } else {
         console.log(sample);
         res.json(sample);
