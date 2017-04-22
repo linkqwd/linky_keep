@@ -145,7 +145,6 @@ var main = function () {
 			}
 		}
 	});
-
 }
 
 

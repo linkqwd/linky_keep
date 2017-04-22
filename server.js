@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 var port = 80;
 http.createServer(app).listen(port, function () {
-	console.log('Listening on port' + port);
+	console.log('Listening on port: ' + port);
 });
 
 app.use(express.static(__dirname + "/client"));
@@ -34,9 +34,8 @@ app.get('/samples', function (req, res) {
 		});
 });
 
-// GET One sample by it's body
+// GET One sample by its body
 app.get('/search/:sample', function(req, res) {
-  console.log('getting all sample');
   dbSchema.findOne({
     "sample": req.params.sample
     })
@@ -44,13 +43,12 @@ app.get('/search/:sample', function(req, res) {
       if(err) {
         res.send('An error has occured')
       } else {
-        console.log(sample);
         res.json(sample);
       }
     });
 });
 
-// POST VALUE
+// POST value
 app.post('/value', function (req, res) {
 	var newValue = new dbSchema();
 	newValue.sample = req.body.sample;
@@ -66,13 +64,27 @@ app.post('/value', function (req, res) {
 
 // DELETE sample
 app.delete('/sample/:id', function (req,res) {
-	dbSchema.findOneAndRemove({_id: req.params.id},
-	 function (err, sample) {
+	dbSchema.findOneAndRemove({
+		_id: req.params.id
+	}, function (err, sample) {
 	 	if (err) {
 	 		res.send('An error has occured while removing');
 	 	} else {
-	 		res.status(204);
-	 		res.send('sample')
+	 		res.send(sample);
 	 	}
 	});
+});
+
+// UPDATE sample
+
+app.put('/update/:id', function (req, res) {
+	dbSchema.findOneAndUpdate({_id: req.params.id},
+	 {$set: {sample: req.body.sample}}, 
+	 function (err, sample) {
+	 	if (err) {
+	 		res.send('An error has occured while updateing');
+	 	} else {
+	 		res.send(sample);
+	 	}
+	 });
 });
