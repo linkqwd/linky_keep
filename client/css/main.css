@@ -67,10 +67,25 @@ body {
 	content: '#';
 }
 
+.action-button {
+	border: 1px solid #7a7568;
+	background: #FFF9E7;
+	font-weight: bold;
+	cursor: pointer;
+	font-size: 10px;
+}
+
 .delete-button {
 	position: absolute;
+
 	top:-8px;
-	right:-10px;
+	right:-8px;
+}
+
+.update-button {
+	position: absolute;
+	top: -8px;
+	right: 50px;
 }
 
 .err404 {

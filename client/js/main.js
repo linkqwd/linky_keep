@@ -57,11 +57,22 @@ var main = function () {
 		$.ajax({
 			url: '/sample/'+id+'',
 			type: 'DELETE',
-			success: function (result) {
+			success: function () {
 				$('#'+id+'').remove();
 			}
 		});
 	}
+
+	function samplesUpdater (id) {
+
+		
+
+		$.ajax({
+			url: '/update/'+id+'',
+			type: 'PUT',
+			data: {"sample": "Hello"}
+		});
+	}	
 
 	function error404 () {
 		$('.err404').remove();
@@ -95,16 +106,29 @@ var main = function () {
 		return foundSamples
 	}
 
+
+
 	function samplesClicker () {
+		$('header').on('click', function () {
+			$('.delete-button').remove();
+			$('.update-button').remove();
+			$('.b-sample__item').removeClass('choosen');
+		});
+
 		$('.b-samples').on('click', '.b-sample__item', function () {
 			var idOfSample = $(this.id).selector;
 			console.log(idOfSample);
 			$('.b-sample__item').removeClass('choosen');
 			$(this).addClass('choosen');
 			$('.delete-button').remove();
-			$(this).append($('<input type="button" class="delete-button" value="x"/>'));
+			$('.update-button').remove();
+			$(this).append($('<input type="button" class="delete-button action-button" value="delete"/>'));
+			$(this).append($('<input type="button" class="update-button action-button" value="update"/>'));
 			$('.delete-button').on('click', function () {
 				samplesDeleter(idOfSample);
+			});
+			$('.update-button').on('click', function () {
+				samplesUpdater(idOfSample);
 			});
 		});
 	}

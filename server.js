@@ -76,7 +76,6 @@ app.delete('/sample/:id', function (req,res) {
 });
 
 // UPDATE sample
-
 app.put('/update/:id', function (req, res) {
 	dbSchema.findOneAndUpdate({_id: req.params.id},
 	 {$set: {sample: req.body.sample}}, 
