@@ -16,25 +16,34 @@ var main = function () {
 	}
 
 	var arreyOfSamples = samplesConstructor();
-	//console.log(arreyOfSamples)
 
 	function samplesWriter (action, foundSamples) {
+		
 		if (action === 'addLastSample') {
 			$('.err404').remove();
 			arreyOfSamples = samplesConstructor();
 			var lastElement = arreyOfSamples[arreyOfSamples.length-1];
+			var $sampleParagraph = $("<p>").addClass("samples_paragraph");
 			var $newSampleItem = $('<div>').addClass('b-sample__item animated bounceInLeft');
-			$('.b-samples').prepend($newSampleItem.attr('id', lastElement.id).text(lastElement.sample));
+			$('.b-samples').prepend(
+				$newSampleItem.attr('id', lastElement.id).append($sampleParagraph.text(lastElement.sample))
+				);
 		} else if (action === 'addFoundSamples') {
 			$('.b-samples').empty();
 			foundSamples.forEach( function (element) {
+				var $sampleParagraph = $("<p>").addClass("samples_paragraph");
 				var $newSampleItem = $('<div>').addClass('b-sample__item animated bounceInLeft');
-				$('.b-samples').prepend($newSampleItem.attr('id', element.id).text(element.sample));
+				$('.b-samples').prepend(
+					$newSampleItem.attr('id', element.id).append($sampleParagraph.text(element.sample))
+					);
 			});
-		}	else {
+		}	else { // Write all samples on page
 			arreyOfSamples.forEach( function (element) {
+				var $sampleParagraph = $("<p>").addClass("samples_paragraph");
 				var $newSampleItem = $('<div>').addClass('b-sample__item animated bounceInLeft');
-				$('.b-samples').prepend($newSampleItem.attr('id', element.id).text(element.sample));
+				$('.b-samples').prepend(
+					$newSampleItem.attr('id', element.id).append($sampleParagraph.text(element.sample))
+					);
 			});
 		}
 	}
@@ -45,10 +54,7 @@ var main = function () {
 			arreyOfSamples.push($newSample);
 			$('.b-add-sample__input').val('');
 			var sample = {"sample": $newSample}
-			$.post("/value", sample, function (response) {
-				// этот обратный вызов выполняется при ответе сервера
-				//console.log('Ответ сервера:'); console.log(sample);
-			});
+			$.post("/value", sample, function (response) {});
 			samplesWriter('addLastSample');
 		} 
 	}
@@ -64,13 +70,39 @@ var main = function () {
 	}
 
 	function samplesUpdater (id) {
+		var $updatedSample = false;
+		var $existedSample = $('#'+id+' .samples_paragraph').text();
+		var $textArea = $('<textarea>').addClass('text-area-update');
 
+		$('#'+id+' .samples_paragraph').empty().append($textArea);
 		
+		$(".text-area-update").val($existedSample);
 
-		$.ajax({
-			url: '/update/'+id+'',
-			type: 'PUT',
-			data: {"sample": "Hello"}
+		$('#'+id+'').append($('<input type="button" class="apply-button action-button '+id+'" value="Apply"/>'));
+		
+		$('.apply-button').on('click', function () {
+			$updatedSample = $(".text-area-update").val();
+			$.ajax({
+				url: '/update/'+id+'',
+				type: 'PUT',
+				data: {"sample": $updatedSample},
+				success: function () {
+					$('.update-button').remove();
+					$('.delete-button').remove();
+					$('.b-sample__item').removeClass('choosen');
+					$('.apply-button').remove();
+					$('#'+id+' .samples_paragraph').text($updatedSample);
+				}
+			});
+		});
+
+		$('.b-sample__item, header, footer').not('#'+id+'').on('click', function () {
+			$('.'+id+'').remove();
+			if ($updatedSample) {
+				$('#'+id+' .samples_paragraph').text($updatedSample);
+			} else {
+				$('#'+id+' .samples_paragraph').text($existedSample);
+			}
 		});
 	}	
 
@@ -106,18 +138,15 @@ var main = function () {
 		return foundSamples
 	}
 
-
-
 	function samplesClicker () {
-		$('header').on('click', function () {
+		$('header, footer').on('click', function () {
 			$('.delete-button').remove();
 			$('.update-button').remove();
 			$('.b-sample__item').removeClass('choosen');
 		});
 
 		$('.b-samples').on('click', '.b-sample__item', function () {
-			var idOfSample = $(this.id).selector;
-			console.log(idOfSample);
+			var idOfSample = $(this.id).selector;		console.log(idOfSample);
 			$('.b-sample__item').removeClass('choosen');
 			$(this).addClass('choosen');
 			$('.delete-button').remove();

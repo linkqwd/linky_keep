@@ -16,27 +16,10 @@ body {
 	justify-content: space-around;
 }
 
-.b-search {
-	height: 30px;
-}
-
-.b-search__button {
+.b-head-button {
 	background: #FFF9E7;
 	cursor: pointer;
-	border: 1px solid #F4EBD1;
-	border-radius: 3px;
-	height: 25px;
-	width: 70px;
-}
-
-.b-add-sample {
-	height: 30px;
-}
-
-.b-add-sample__button {
-	background: #FFF9E7;
-	cursor: pointer;
-	border: 1px solid #F4EBD1;
+	border: 1px solid #dbbf6f;
 	border-radius: 3px;
 	height: 25px;
 	width: 70px;
@@ -59,33 +42,44 @@ body {
 	border: 2px solid #FFFFFe;
 	border-radius: 3px;
 	position: relative;
+	min-height: 56px;
 }
 
 .choosen {
-	border: 2px solid #F4EBD1;
+	border: 2px solid #fff0ce;
 	border-radius: 3px;
+	transition: 1s all;
 	content: '#';
 }
 
 .action-button {
-	border: 1px solid #7a7568;
+	border: 1px solid #ba9c44;
 	background: #FFF9E7;
 	font-weight: bold;
 	cursor: pointer;
 	font-size: 10px;
+	
 }
 
 .delete-button {
 	position: absolute;
-
 	top:-8px;
-	right:-8px;
+	right:-7px;
 }
 
 .update-button {
 	position: absolute;
 	top: -8px;
 	right: 50px;
+}
+
+.apply-button {
+	position: absolute;
+	margin-left: -2px;
+	top: -8px;
+	right: 50px;
+	z-index: 100;
+	width: 47px;
 }
 
 .err404 {
@@ -101,16 +95,36 @@ body {
 	padding: 1%;
 }
 
+.remove {
+	display: none;
+}
+
+.text-area-update {
+	width: 99%;
+	min-height: 40px;
+	margin: 6px 0 0 -1px;
+	border: 1px solid #83a4c1;
+	padding-left: 2px;
+	font-size: 15px;
+	font-family: Sans-serif;
+	resize: vertical;
+	outline-color: #83a4c1;
+}
+
+footer {
+	min-height: 120px;
+}
+
 @media (max-width: 500px) {
 	.b-flex-container {
 		flex-wrap: wrap;
 		justify-content: space-around;
 	}
 	.b-add-sample {
-
+		margin: 2px;
 	}
 	.b-search {
-
+		margin: 2px;
 	}
 	.b-sample__item {
 		flex-grow: 1;
