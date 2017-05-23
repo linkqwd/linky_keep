@@ -10,7 +10,7 @@ var db = 'mongodb://localhost/linky';
 mongoose.connect(db);
 // END MONGO
 
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 var port = 80;
@@ -41,7 +41,7 @@ app.get('/search/:sample', function(req, res) {
     })
     .exec(function(err, sample) {
       if(err) {
-        res.send('An error has occured')
+        res.send('An error has occured');
       } else {
         res.json(sample);
       }

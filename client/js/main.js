@@ -1,7 +1,7 @@
 var main = function () {
 
 	function samplesConstructor (value) {
-		var samples = [];
+		var samples = [];  //Creating local arrey for samples
 		$.ajax({
 			url: '/samples',
 			async: false,
@@ -23,7 +23,7 @@ var main = function () {
 			$('.err404').remove();
 			arreyOfSamples = samplesConstructor();
 			var lastElement = arreyOfSamples[arreyOfSamples.length-1];
-			var $sampleParagraph = $("<p>").addClass("samples_paragraph");
+			var $sampleParagraph = $('<p>').addClass('samples_paragraph');
 			var $newSampleItem = $('<div>').addClass('b-sample__item animated bounceInLeft');
 			$('.b-samples').prepend(
 				$newSampleItem.attr('id', lastElement.id).append($sampleParagraph.text(lastElement.sample))
@@ -31,7 +31,7 @@ var main = function () {
 		} else if (action === 'addFoundSamples') {
 			$('.b-samples').empty();
 			foundSamples.forEach( function (element) {
-				var $sampleParagraph = $("<p>").addClass("samples_paragraph");
+				var $sampleParagraph = $('<p>').addClass('samples_paragraph');
 				var $newSampleItem = $('<div>').addClass('b-sample__item animated bounceInLeft');
 				$('.b-samples').prepend(
 					$newSampleItem.attr('id', element.id).append($sampleParagraph.text(element.sample))
@@ -39,7 +39,7 @@ var main = function () {
 			});
 		}	else { // Write all samples on page
 			arreyOfSamples.forEach( function (element) {
-				var $sampleParagraph = $("<p>").addClass("samples_paragraph");
+				var $sampleParagraph = $('<p>').addClass('samples_paragraph');
 				var $newSampleItem = $('<div>').addClass('b-sample__item animated bounceInLeft');
 				$('.b-samples').prepend(
 					$newSampleItem.attr('id', element.id).append($sampleParagraph.text(element.sample))
@@ -54,7 +54,7 @@ var main = function () {
 			arreyOfSamples.push($newSample);
 			$('.b-add-sample__input').val('');
 			var sample = {"sample": $newSample}
-			$.post("/value", sample, function (response) {});
+			$.post("/value/", sample, function (response) {});
 			samplesWriter('addLastSample');
 		} 
 	}
@@ -79,8 +79,8 @@ var main = function () {
 		$(".text-area-update").val($existedSample);
 
 		$('#'+id+'').append($('<input type="button" class="apply-button action-button '+id+'" value="Apply"/>'));
-		
-		$('.apply-button').on('click', function () {
+
+		function applyChanges () {
 			$updatedSample = $(".text-area-update").val();
 			$.ajax({
 				url: '/update/'+id+'',
@@ -94,6 +94,16 @@ var main = function () {
 					$('#'+id+' .samples_paragraph').text($updatedSample);
 				}
 			});
+		}
+		
+		$('.apply-button').on('click', function () {
+			applyChanges();
+		});
+
+		$(".text-area-update").on("keypress", function () {
+			if (event.keyCode === 13) {
+				applyChanges();
+			}
 		});
 
 		$('.b-sample__item, header, footer').not('#'+id+'').on('click', function () {
@@ -182,7 +192,6 @@ var main = function () {
 		$(".b-search__input").val('');
 		if ((searchTag != '') & (searchTag != ' ')) {
 			var foundSamples = samplesFinder(searchTag);
-			//console.log(foundSamples);
 			samplesWriter('addFoundSamples', foundSamples);
 		}
 	});
@@ -193,13 +202,11 @@ var main = function () {
 			if ((searchTag != '') & (searchTag != ' ')) {
 				$(".b-search__input").val('');
 				var foundSamples = samplesFinder(searchTag);
-				//console.log(foundSamples);
 				samplesWriter('addFoundSamples', foundSamples);
 			}
 		}
 	});
 }
-
 
 $(document).ready(function () {
 	main();	

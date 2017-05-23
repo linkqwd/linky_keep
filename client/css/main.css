@@ -2,7 +2,7 @@ body {
 	max-width: 1180px;
 	margin: 0 auto;
 	font-family: Sans-serif;
-	background: #e8e8e8;
+	background: #ededed;
 }
 
 .b-logo {
@@ -20,9 +20,22 @@ body {
 	background: #FFF9E7;
 	cursor: pointer;
 	border: 1px solid #dbbf6f;
-	border-radius: 3px;
+	border-radius: 4px;
 	height: 25px;
 	width: 70px;
+	outline: none;
+	box-shadow: inset 0px 0px 10px -1px rgb(234, 207, 131);
+}
+
+.b-head-input {
+	box-shadow: 1px 1px 0px 0px rgba(173,173,173,0.55);
+	border: none;
+	border-radius: 1px;
+	height: 22px;
+	vertical-align: top;
+	margin-top: 1px;
+	outline: none;
+	padding: 0;
 }
 
 .b-samples {
@@ -46,19 +59,18 @@ body {
 }
 
 .choosen {
-	border: 2px solid #fff0ce;
+	border: 2px solid #eddfb7;
 	border-radius: 3px;
-	transition: 1s all;
 	content: '#';
 }
 
 .action-button {
-	border: 1px solid #ba9c44;
+	border: 1px solid #d1a623;
 	background: #FFF9E7;
 	font-weight: bold;
 	cursor: pointer;
 	font-size: 10px;
-	
+  box-shadow: inset 0px 0px 3px 0px rgb(234, 207, 131);
 }
 
 .delete-button {
@@ -112,7 +124,7 @@ body {
 }
 
 footer {
-	min-height: 120px;
+	min-height: 150px;
 }
 
 @media (max-width: 500px) {
