@@ -12,21 +12,19 @@ var main = function () {
 				});
 			}
 		});
-		return samples
+		return samples;
 	}
 
-	var arreyOfSamples = samplesConstructor();
+	var localSamplesArrey = samplesConstructor();
 
 	function samplesWriter (action, foundSamples) {
-		
 		if (action === 'addLastSample') {
 			$('.err404').remove();
-			arreyOfSamples = samplesConstructor();
-			var lastElement = arreyOfSamples[arreyOfSamples.length-1];
+			var newSample = localSamplesArrey[localSamplesArrey.length-1];
 			var $sampleParagraph = $('<p>').addClass('samples_paragraph');
 			var $newSampleItem = $('<div>').addClass('b-sample__item animated bounceInLeft');
 			$('.b-samples').prepend(
-				$newSampleItem.attr('id', lastElement.id).append($sampleParagraph.text(lastElement.sample))
+				$newSampleItem.attr('id', newSample.id).append($sampleParagraph.text(newSample.sample))
 				);
 		} else if (action === 'addFoundSamples') {
 			$('.b-samples').empty();
@@ -38,7 +36,7 @@ var main = function () {
 					);
 			});
 		}	else { // Write all samples on page
-			arreyOfSamples.forEach( function (element) {
+			localSamplesArrey.forEach( function (element) {
 				var $sampleParagraph = $('<p>').addClass('samples_paragraph');
 				var $newSampleItem = $('<div>').addClass('b-sample__item animated bounceInLeft');
 				$('.b-samples').prepend(
@@ -51,12 +49,21 @@ var main = function () {
 	function samplesPusher () {
 		var $newSample = $('.b-add-sample__input').val();
 		if (($newSample != '') & ($newSample != ' ')) {
-			arreyOfSamples.push($newSample);
 			$('.b-add-sample__input').val('');
+
 			var sample = {"sample": $newSample}
-			$.post("/value/", sample, function (response) {});
-			samplesWriter('addLastSample');
-		} 
+			$.ajax({
+				url: '/value/',
+				type: 'POST',
+				async: false,
+				dataType: 'json',
+				data: {"sample": $newSample},
+				success: function (response) {
+					localSamplesArrey.push({'id': response._id, 'sample': response.sample});
+					samplesWriter('addLastSample');
+				}
+			});
+		}
 	}
 
 	function samplesDeleter (id) {
@@ -80,6 +87,16 @@ var main = function () {
 
 		$('#'+id+'').append($('<input type="button" class="apply-button action-button '+id+'" value="Apply"/>'));
 
+		$('.apply-button').on('click', function () {
+			applyChanges();
+		});
+
+		$(".text-area-update").on("keypress", function () {
+			if (event.keyCode === 13) {
+				applyChanges();
+			}
+		});
+
 		function applyChanges () {
 			$updatedSample = $(".text-area-update").val();
 			$.ajax({
@@ -95,16 +112,6 @@ var main = function () {
 				}
 			});
 		}
-		
-		$('.apply-button').on('click', function () {
-			applyChanges();
-		});
-
-		$(".text-area-update").on("keypress", function () {
-			if (event.keyCode === 13) {
-				applyChanges();
-			}
-		});
 
 		$('.b-sample__item, header, footer').not('#'+id+'').on('click', function () {
 			$('.'+id+'').remove();
@@ -135,9 +142,7 @@ var main = function () {
 				if (findResult === null) {
 					error404();
 				} else {
-					if (findResult) {
-						$('.err404').remove();
-					}
+					$('.err404').remove();
 					var local = [findResult];
 					local.forEach(function (elem) {
 						foundSamples.push({'sample': elem.sample, 'id': elem._id});
@@ -156,7 +161,7 @@ var main = function () {
 		});
 
 		$('.b-samples').on('click', '.b-sample__item', function () {
-			var idOfSample = $(this.id).selector;		console.log(idOfSample);
+			var idOfSample = this.id;
 			$('.b-sample__item').removeClass('choosen');
 			$(this).addClass('choosen');
 			$('.delete-button').remove();
@@ -209,5 +214,5 @@ var main = function () {
 }
 
 $(document).ready(function () {
-	main();	
+	main();
 });
