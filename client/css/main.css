@@ -36,6 +36,7 @@ body {
 	margin-top: 1px;
 	outline: none;
 	padding: 0;
+	width: 160px;
 }
 
 .b-samples {
@@ -46,16 +47,29 @@ body {
 }
 
 .b-sample__item {
-	flex-basis: 260px;
+	flex-basis: 266px;
 	background-color: #FFFFFe;
 	margin: 5px 2% 10px 2%;
-	padding: 1.1%;
 	border-radius:3px;
 	box-shadow: 2px 2px 3px 0px rgba(173,173,173,0.75);
 	border: 2px solid #FFFFFe;
 	border-radius: 3px;
 	position: relative;
-	min-height: 56px;
+	min-height: 86px;
+	padding: 15px 6px 6px 10px;
+}
+
+.text-area-update {
+	width: 100%;
+	border: 1px solid #83a4c1;
+	padding: 2px;
+	font-size: 16px;
+	margin-left: -3px;
+	margin-top: -3px;
+	font-family: Sans-serif;
+	resize: vertical;
+	outline-color: #83a4c1;
+	height: 60px;
 }
 
 .choosen {
@@ -71,6 +85,7 @@ body {
 	cursor: pointer;
 	font-size: 10px;
   box-shadow: inset 0px 0px 3px 0px rgb(234, 207, 131);
+  width: 50px;
 }
 
 .delete-button {
@@ -87,11 +102,9 @@ body {
 
 .apply-button {
 	position: absolute;
-	margin-left: -2px;
 	top: -8px;
 	right: 50px;
 	z-index: 100;
-	width: 47px;
 }
 
 .err404 {
@@ -111,23 +124,15 @@ body {
 	display: none;
 }
 
-.text-area-update {
-	width: 99%;
-	min-height: 40px;
-	margin: 6px 0 0 -1px;
-	border: 1px solid #83a4c1;
-	padding-left: 2px;
-	font-size: 15px;
-	font-family: Sans-serif;
-	resize: vertical;
-	outline-color: #83a4c1;
-}
-
 footer {
 	min-height: 150px;
 }
 
-@media (max-width: 500px) {
+* {
+	box-sizing: border-box;
+}
+
+@media (max-width: 575px) {
 	.b-flex-container {
 		flex-wrap: wrap;
 		justify-content: space-around;
@@ -140,11 +145,9 @@ footer {
 	}
 	.b-sample__item {
 		flex-grow: 1;
+		min-height: 70px;
 	}
-}
-
-@media (max-width: 600px) {
-	.b-sample__item {
-		flex-grow: 1;
+	.text-area-update {
+		height: 44px;
 	}
 }
